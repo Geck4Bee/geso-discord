@@ -36,7 +36,7 @@ def handler(event, context):
             oldItem = record['dynamodb']['OldImage']
             newItem = record['dynamodb']['NewImage']
             content += '<更新>\n' + newItem['title']['S'] + ':\n' + 'https://gesontacle.com/post/' + newItem['id']['S'] + '\n'
-            flagSendWebhook = False
+            flagSendWebhook = True
         elif record['eventName'] == 'REMOVE':
             #項目が削除された時の処理
             deletedItem = record['dynamodb']['OldImage']
