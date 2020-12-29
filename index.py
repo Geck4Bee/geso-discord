@@ -23,23 +23,27 @@ def sendWebHook(content):
 
 def handler(event, context):
     content = '●GESONTACLE更新\n'
+    response = 'start'
+    flagSendWebhook = False
     for record in event['Records']:
         if record['eventName'] is 'INSERT':
             #項目が追加された時の処理
             newItem = record['dynamodb']['NewImage']
             dt = datetime.datetime.fromisoformat(newItem['updatedAt'])
             content += '<新着>\n' + newItem['title'] + ': ' + dt.strftime("%Y/%m/%d %H:%M:%S") +'\n' + 'https://gesontacle.com/post/' + newItem['id'] + '\n'
+            flagSendWebhook = True
         elif record['eventName'] is 'MODIFY':
             #項目が変更された時の処理
             oldItem = record['dynamodb']['OldImage']
             newItem = record['dynamodb']['NewImage']
             dt = datetime.datetime.fromisoformat(newItem['updatedAt'])
             content += '<更新>\n' + newItem['title'] + ': ' + dt.strftime("%Y/%m/%d %H:%M:%S") +'\n' + 'https://gesontacle.com/post/' + newItem['id'] + '\n'
+            flagSendWebhook = True
         elif record['eventName'] is 'REMOVE':
             #項目が削除された時の処理
             deletedItem = record['dynamodb']['OldImage']
-    response = sendWebHook(content)
-    
+    if flagSendWebhook:
+        response = sendWebHook(content)
     data = {
         'output': 'Hello World',
         'timestamp': datetime.datetime.utcnow().isoformat(),
