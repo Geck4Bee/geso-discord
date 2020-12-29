@@ -25,6 +25,7 @@ def handler(event, context):
     content = '●GESONTACLE更新\n'
     response = 'start'
     flagSendWebhook = False
+    print(event)
     for record in event['Records']:
         if record['eventName'] == 'INSERT':
             #項目が追加された時の処理
