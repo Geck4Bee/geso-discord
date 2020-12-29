@@ -1,3 +1,8 @@
+import sys
+sys.path.append('lib')
+
+import requests
+import os
 import json
 import datetime
 
