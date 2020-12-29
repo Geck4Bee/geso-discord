@@ -44,8 +44,7 @@ def handler(event, context):
         response = sendWebHook(content)
     data = {
         'output': 'Hello World',
-        'timestamp': datetime.datetime.utcnow().isoformat(),
-        'response': response
+        'timestamp': datetime.datetime.utcnow().isoformat()
     }
     return {'statusCode': 200,
             'body': json.dumps(data),
