@@ -30,15 +30,15 @@ def handler(event, context):
         if record['eventName'] == 'INSERT':
             #項目が追加された時の処理
             newItem = record['dynamodb']['NewImage']
-            dt = datetime.datetime.fromisoformat(newItem['updatedAt'])
-            content += '<新着>\n' + newItem['title'] + ': ' + dt.strftime("%Y/%m/%d %H:%M:%S") +'\n' + 'https://gesontacle.com/post/' + newItem['id'] + '\n'
+            dt = datetime.datetime.fromisoformat(newItem['updatedAt']['S'])
+            content += '<新着>\n' + newItem['title']['S'] + ': ' + dt.strftime("%Y/%m/%d %H:%M:%S") +'\n' + 'https://gesontacle.com/post/' + newItem['id']['S'] + '\n'
             flagSendWebhook = True
         elif record['eventName'] == 'MODIFY':
             #項目が変更された時の処理
             oldItem = record['dynamodb']['OldImage']
             newItem = record['dynamodb']['NewImage']
-            dt = datetime.datetime.fromisoformat(newItem['updatedAt'])
-            content += '<更新>\n' + newItem['title'] + ': ' + dt.strftime("%Y/%m/%d %H:%M:%S") +'\n' + 'https://gesontacle.com/post/' + newItem['id'] + '\n'
+            dt = datetime.datetime.fromisoformat(newItem['updatedAt']['S'])
+            content += '<更新>\n' + newItem['title']['S'] + ': ' + dt.strftime("%Y/%m/%d %H:%M:%S") +'\n' + 'https://gesontacle.com/post/' + newItem['id']['S'] + '\n'
             flagSendWebhook = True
         elif record['eventName'] == 'REMOVE':
             #項目が削除された時の処理
